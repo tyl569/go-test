@@ -1,0 +1,15 @@
+package: .
+import:
+- package: errors
+- package: fmt
+- package: sync
+- package: unsafe
+testImport:
+- package: Class21
+- package: github.com/easierway/concurrent_map
+  version: v1.0.0
+- package: math/rand
+- package: os
+- package: strconv
+- package: testing
+- package: time
