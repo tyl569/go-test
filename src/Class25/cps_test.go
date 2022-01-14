@@ -1,4 +1,4 @@
-package class25
+package Class25
 
 import (
 	"fmt"
@@ -11,7 +11,7 @@ func service() string {
 	return "Done"
 }
 
-func otherTask() {
+func OtherTask() {
 	fmt.Println("working on something else")
 	time.Sleep(time.Millisecond * 100)
 	fmt.Println("Task is done.")
@@ -19,7 +19,7 @@ func otherTask() {
 
 func TestService(t *testing.T) {
 	fmt.Println(service())
-	otherTask()
+	OtherTask()
 }
 
 func AsyncService() chan string {
@@ -43,6 +43,6 @@ func AsyncService() chan string {
 // 子协程继续执行，输出service exited.
 func TestAsync(t *testing.T) {
 	retCh := AsyncService()
-	otherTask()
+	OtherTask()
 	fmt.Println(<-retCh)
 }
