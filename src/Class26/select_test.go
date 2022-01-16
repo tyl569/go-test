@@ -34,3 +34,31 @@ func TestAsync(t *testing.T) {
 		t.Error("time out")
 	}
 }
+
+func TestSelect(t *testing.T) {
+	var ch1, ch2 chan int
+	ch1 = CreateCh()
+	ch2 = CreateCh()
+	select {
+	case <-ch1:
+		t.Log("ch1 returns")
+	case <-ch2:
+		t.Log("ch2 returns")
+	case <-time.After(time.Second * 1):
+		t.Log("timeout")
+		//default:
+		//	t.Log("nothings returns")
+	}
+}
+
+func CreateCh() chan int {
+	ch1 := make(chan int)
+	go func() {
+		for i := 0; i < 10; i++ {
+			time.Sleep(time.Second * 2)
+			ch1 <- i
+		}
+	}()
+
+	return ch1
+}
