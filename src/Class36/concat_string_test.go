@@ -20,17 +20,21 @@ func TestConcatStringByAdd(t *testing.T) {
 
 func BenchmarkTestConcatStringByAdd(b *testing.B) {
 	b.ResetTimer()
-	var elems []string
-	elems = append(elems, "1", "2", "3", "4", "5")
-	ConcatStringByAdd(elems)
+	for i := 0; i < b.N; i++ {
+		var elems []string
+		elems = append(elems, "1", "2", "3", "4", "5")
+		ConcatStringByAdd(elems)
+	}
 	b.StopTimer()
 }
 
 func BenchmarkTestConcatStringByWritingBuffer(b *testing.B) {
 	b.ResetTimer()
-	var elems []string
-	elems = append(elems, "1", "2", "3", "4", "5")
-	ConcatStringByWritingBuffer(elems)
+	for i := 0; i < b.N; i++ {
+		var elems []string
+		elems = append(elems, "1", "2", "3", "4", "5")
+		ConcatStringByWritingBuffer(elems)
+	}
 	b.StopTimer()
 }
 
