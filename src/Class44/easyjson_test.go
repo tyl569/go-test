@@ -1,6 +1,7 @@
 package Class44
 
 import (
+	"encoding/json"
 	"fmt"
 	"testing"
 )
@@ -24,4 +25,26 @@ func TestEasyjson(t *testing.T) {
 	} else {
 		t.Error(err)
 	}
+}
+
+func BenchmarkEmployee_MarshalJSON(b *testing.B) {
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		e := new(Employee)
+		e.UnmarshalJSON([]byte(jsonStr))
+		if _, err := e.MarshalJSON(); err == nil {
+		}
+	}
+	b.StopTimer()
+}
+
+func BenchmarkEmployee(b *testing.B) {
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		e := new(Employee)
+		json.Unmarshal([]byte(jsonStr), e)
+		if _, err := json.Marshal(e); err == nil {
+		}
+	}
+	b.StopTimer()
 }
