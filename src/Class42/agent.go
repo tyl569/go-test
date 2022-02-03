@@ -8,9 +8,28 @@ import (
 	"sync"
 )
 
+const (
+	Waiting = iota
+	Running
+)
+
+var WrongStateError = errors.New("state code error")
+
+type CollectorsError struct {
+	CollectorErrors []error
+}
+
+func (ce CollectorsError) Error() string {
+	var str []string
+	for _, err := range ce.CollectorErrors {
+		str = append(str, err.Error())
+	}
+	return strings.Join(str, ";")
+}
+
 type Event struct {
 	Source  string
-	content string
+	Content string
 }
 
 type EventReceiver interface {
@@ -34,25 +53,6 @@ type Agent struct {
 
 func (agent *Agent) OnEvent(event Event) {
 	agent.evtBuf <- event
-}
-
-const (
-	Waiting = iota
-	Running
-)
-
-var WrongStateError = errors.New("state code error")
-
-type CollectorsError struct {
-	CollectorErrors []error
-}
-
-func (ce *CollectorsError) Error() string {
-	var str []string
-	for _, err := range ce.CollectorErrors {
-		str = append(str, err.Error())
-	}
-	return strings.Join(str, ";")
 }
 
 func (agent *Agent) Start() error {
@@ -95,7 +95,7 @@ func (agent *Agent) Destory() error {
 	return agent.DestoryCollector()
 }
 
-func (agent *Agent) RegisterCollectors(name string, collector Collector) error {
+func (agent *Agent) RegisterCollector(name string, collector Collector) error {
 	if agent.state != Waiting {
 		return WrongStateError
 	}
