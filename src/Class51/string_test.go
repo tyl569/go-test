@@ -44,3 +44,14 @@ func BenchmarkStringBuilder(b *testing.B) {
 	}
 	b.StopTimer()
 }
+
+func BenchmarkStringAd(b *testing.B) {
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		var s string
+		for j := 0; j < numbers; j++ {
+			s += strconv.Itoa(j)
+		}
+	}
+	b.StopTimer()
+}
